@@ -47,7 +47,11 @@ enum ShadowMode {
 		shadow_mode = x
 		render_changed.emit()
 
-@export_storage var material := ShaderMaterial.new():
+## The material used for rendering this layer.
+## Its properties are auto-generated, however, you should
+## save it externally to the filesystem for baked meshes
+## to reference
+@export var material := ShaderMaterial.new():
 	set(x):
 		if not x:
 			x = ShaderMaterial.new()

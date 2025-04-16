@@ -143,6 +143,7 @@ func generate_collision_mesh(mt3d: MTBase3D, curve: Curve3D) -> ArrayMesh:
 	
 	var roof_layer := MTLayer.new()
 	roof_layer.generation_mode = MTLayer.Mode.ROOF
+	roof_layer.flatten = true
 	
 	# Build the mesh.
 	curve = smooth_curve(curve)
