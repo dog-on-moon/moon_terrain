@@ -5,8 +5,6 @@ class_name MTPath3DGizmoPlugin
 
 const DEPTH_MATERIALS := 8
 
-static var snap := 1.0
-
 var plugin: EditorPlugin = null
 
 func _init():
@@ -90,7 +88,12 @@ func _set_handle(gizmo: EditorNode3DGizmo, handle_id: int, secondary: bool, came
 	var raycast := _raycast(gizmo, camera, screen_pos, gizmo.get_node_3d().get_viewport(), curve)
 	raycast.position = gizmo.get_node_3d().transform.affine_inverse() * raycast.position
 	if not Input.is_key_pressed(KEY_CTRL):
-		raycast.position = (raycast.position * snap).round() / snap
+		var snap := get_snap()
+		if not Input.is_key_pressed(KEY_ALT):
+			raycast.position.x = roundf(raycast.position.x * snap) / snap
+			raycast.position.z = roundf(raycast.position.z * snap) / snap
+		else:
+			raycast.position.y = roundf(raycast.position.y * snap) / snap
 	if not creating_new_point:
 		curve.position = raycast.position
 	else:
@@ -156,9 +159,9 @@ func _raycast(gizmo, camera: Camera3D, position: Vector2, viewport: Viewport, cu
 		# When we are holding alt, we lock movement to Y axis only
 		var alting_pos := Vector3.ZERO
 		if not creating_new_point:
-			alting_pos = curve.position + gizmo.get_node_3d().global_position
+			alting_pos = gizmo.get_node_3d().global_transform * curve.position
 		else:
-			alting_pos = new_point.position + gizmo.get_node_3d().global_position
+			alting_pos = gizmo.get_node_3d().global_transform * new_point.position
 		var plane_normal := (alting_pos - from)
 		plane_normal.y = 0.0
 		plane_normal.normalized()
@@ -166,4 +169,6 @@ func _raycast(gizmo, camera: Camera3D, position: Vector2, viewport: Viewport, cu
 		var intersection: Vector3 = plane.intersects_ray(from, to)
 		start_pos.y = intersection.y
 		return {'position': Vector3(alting_pos.x, intersection.y, alting_pos.z)}
-	
+
+func get_snap() -> float:
+	return 1.0 / maxf(0.001, EditorInterface.get_editor_settings().get_project_metadata("3d_editor", "snap_translate_value", 1.0))

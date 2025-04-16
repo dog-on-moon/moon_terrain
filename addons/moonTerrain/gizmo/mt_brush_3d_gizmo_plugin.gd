@@ -3,11 +3,13 @@ extends EditorNode3DGizmoPlugin
 class_name MTBrush3DGizmoPlugin
 ## An editor gizmo for a Brush3D.
 
+const DEPTH_MATERIALS := 9
+
 var plugin: EditorPlugin = null
 
-static var snap := 1.0
-
 func _init():
+	for i in DEPTH_MATERIALS:
+		create_material("depth%s" % i, Color.from_hsv(float(i) / float(DEPTH_MATERIALS), 1.0, 1.0))
 	create_material("white", Color.WHITE)
 	create_handle_material("handles")
 
@@ -29,14 +31,18 @@ func _redraw(gizmo):
 	
 	var c: Curve3D = current_brush.curve_3d
 	for idx in c.point_count:
+		var depth_mat := get_depth_material(idx, gizmo)
 		var last := idx == (c.point_count - 1)
 		var point_a := c.get_point_position(idx)
 		var point_b := c.get_point_position((idx + 1) if not last else 0)
-		gizmo.add_lines(PackedVector3Array([point_a + (OFFSET * 1), point_b + (OFFSET * 1)]), white_mat)
-		gizmo.add_lines(PackedVector3Array([point_a + (OFFSET * 2), point_b + (OFFSET * 2)]), white_mat)
-		gizmo.add_lines(PackedVector3Array([point_a + (OFFSET * 3), point_b + (OFFSET * 3)]), white_mat)
-		gizmo.add_lines(PackedVector3Array([point_a + (OFFSET * 4), point_b + (OFFSET * 4)]), white_mat)
+		gizmo.add_lines(PackedVector3Array([point_a + (OFFSET * 1), point_b + (OFFSET * 1)]), depth_mat)
+		gizmo.add_lines(PackedVector3Array([point_a + (OFFSET * 2), point_b + (OFFSET * 2)]), depth_mat)
+		gizmo.add_lines(PackedVector3Array([point_a + (OFFSET * 3), point_b + (OFFSET * 3)]), depth_mat)
+		gizmo.add_lines(PackedVector3Array([point_a + (OFFSET * 4), point_b + (OFFSET * 4)]), depth_mat)
 		gizmo.add_handles(PackedVector3Array([point_a + OFFSET]), handle_mat, PackedInt32Array([idx]))
+
+func get_depth_material(depth: int, gizmo) -> Material:
+	return get_material("depth%s" % posmod(-depth, DEPTH_MATERIALS), gizmo)
 
 func _has_gizmo(node):
 	return node is MTBrush3D
@@ -63,7 +69,12 @@ func _set_handle(gizmo: EditorNode3DGizmo, handle_id: int, secondary: bool, came
 	var raycast := _raycast(camera, screen_pos, gizmo.get_node_3d().get_viewport())
 	raycast.position = gizmo.get_node_3d().transform.affine_inverse() * raycast.position
 	if not Input.is_key_pressed(KEY_CTRL):
-		raycast.position = (raycast.position * snap).round() / snap
+		var snap := get_snap()
+		if not Input.is_key_pressed(KEY_ALT):
+			raycast.position.x = roundf(raycast.position.x * snap) / snap
+			raycast.position.z = roundf(raycast.position.z * snap) / snap
+		else:
+			raycast.position.y = roundf(raycast.position.y * snap) / snap
 	current_brush.curve_3d.set_point_position(handle_id, raycast.position)
 	_redraw(gizmo)
 
@@ -95,33 +106,14 @@ func _raycast(camera: Camera3D, position: Vector2, viewport: Viewport) -> Dictio
 	var from := camera.global_position
 	var to := camera.project_position(position, 10000.0)
 	
-	# disabling regular camera raycast for brushes
-	if false:
-		# Also perform a raycast.
-		var ray_from := camera.project_ray_origin(position)
-		var camera_normal := camera.project_ray_normal(position)
-		var ray_to := ray_from + camera_normal * 10000.0
-		var space := viewport.find_world_3d().direct_space_state
-		var ray_query := PhysicsRayQueryParameters3D.new()
-		ray_query.from = from
-		ray_query.to = to
-		ray_query.collide_with_areas = true
-		ray_query.collision_mask = (2 ** 32) - 1
-		#ray_query.collision_mask |= 1 << (32 - 1)  # terrain mask
-		#ray_query.collision_mask |= 1 << (31 - 1)  # editor scenes
-		#ray_query.collision_mask |= 1 << (30 - 1)  # editor doors
-		var raycast := space.intersect_ray(ray_query)
-		if raycast:
-			return raycast
-	
-	# Raycast failed, so now we will re-project onto the XZ plane using the reference pos.
+	# Project onto the XZ plane using the reference pos.
 	if not Input.is_key_pressed(KEY_ALT):
 		var t := inverse_lerp(from.y, to.y, start_pos.y)
 		var pos := from.lerp(to, t)
 		return {'position': from.lerp(to, t)}
 	else:
 		# When we are holding alt, we lock movement to Y axis only
-		var alting_pos := current_brush.global_position + current_brush.curve_3d.get_point_position(idx)
+		var alting_pos: Vector3 = current_brush.global_transform * current_brush.curve_3d.get_point_position(idx)
 		var plane_normal := (alting_pos - from)
 		plane_normal.y = 0.0
 		plane_normal.normalized()
@@ -129,3 +121,6 @@ func _raycast(camera: Camera3D, position: Vector2, viewport: Viewport) -> Dictio
 		var intersection: Vector3 = plane.intersects_ray(from, to)
 		start_pos.y = intersection.y
 		return {'position': Vector3(alting_pos.x, intersection.y, alting_pos.z)}
+
+func get_snap() -> float:
+	return 1.0 / maxf(0.001, EditorInterface.get_editor_settings().get_project_metadata("3d_editor", "snap_translate_value", 1.0))

@@ -76,14 +76,15 @@ func update():
 	mesh_instance_3d.mesh = _generate_mesh()
 	collision_shape_3d.shape = null
 	
-	var collision_mesh := MeshInstance3D.new()
-	collision_mesh.mesh = _generate_collision_mesh()
-	if collision_mesh.mesh:
-		collision_mesh.create_trimesh_collision()
-		if collision_mesh.get_child_count() and collision_mesh.get_child(0).get_child_count():
-			var cs3d: CollisionShape3D = collision_mesh.get_child(0).get_child(0)
-			collision_shape_3d.shape = cs3d.shape
-	collision_mesh.queue_free()
+	if _collision_is_valid():
+		var collision_mesh := MeshInstance3D.new()
+		collision_mesh.mesh = _generate_collision_mesh()
+		if collision_mesh.mesh:
+			collision_mesh.create_trimesh_collision()
+			if collision_mesh.get_child_count() and collision_mesh.get_child(0).get_child_count():
+				var cs3d: CollisionShape3D = collision_mesh.get_child(0).get_child(0)
+				collision_shape_3d.shape = cs3d.shape
+		collision_mesh.queue_free()
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSFORM_CHANGED:
@@ -104,6 +105,10 @@ func _get_duplicate_check() -> Variant:
 ## virtual override
 func _handle_duplicate():
 	pass
+
+## virtual override
+func _collision_is_valid() -> bool:
+	return true
 
 func get_flatten_height() -> float:
 	return flatten_height - transform.origin.y

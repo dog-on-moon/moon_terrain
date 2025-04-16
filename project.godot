@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="moonTerrain"
-config/description="A 3D terrain plugin for Godot. Designed for rapid, cartoonic brush building and external mesh baking."
+config/description="A 3D terrain plugin for Godot. Designed for rapid, cartoonic brush building and mesh baking."
 run/main_scene="uid://cklg4qw25rxjw"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
