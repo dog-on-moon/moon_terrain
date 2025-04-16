@@ -1,0 +1,345 @@
+[gd_scene load_steps=35 format=3 uid="uid://cklg4qw25rxjw"]
+
+[ext_resource type="Script" uid="uid://mx6yfnt8i65" path="res://addons/moonTerrain/base/mt_baker.gd" id="1_8uh7m"]
+[ext_resource type="Script" uid="uid://b3kwqvw5yx6jh" path="res://addons/moonTerrain/base/mt_brush_3d.gd" id="2_6uqi0"]
+[ext_resource type="Script" uid="uid://qiln4rknj40s" path="res://addons/moonTerrain/base/mt_layer.gd" id="3_g14j6"]
+[ext_resource type="Shader" uid="uid://csku7g3762f4l" path="res://addons/moonTerrain/shaders/variant_0.gdshader" id="4_g14j6"]
+[ext_resource type="Script" uid="uid://d3w4mhtjatd6a" path="res://addons/moonTerrain/base/mt_material.gd" id="4_vbegm"]
+[ext_resource type="Texture2D" uid="uid://c6xnv7aldbakm" path="res://icon.svg" id="5_xersf"]
+[ext_resource type="Shader" uid="uid://dchojyufmwrus" path="res://addons/moonTerrain/shaders/variant_1.gdshader" id="7_ehkex"]
+
+[sub_resource type="Curve3D" id="Curve3D_00tp4"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1.605, 0, -1.906, 0, 0, 0, 0, 0, 0, 3.393, 0, -2.673, 0, 0, 0, 0, 0, 0, 2.06873, 0, 2.12799),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_vbegm"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ehkex"]
+gradient = SubResource("Gradient_vbegm")
+fill_from = Vector2(0.463675, 0.429487)
+fill_to = Vector2(0.391026, 0.292735)
+
+[sub_resource type="Gradient" id="Gradient_ehkex"]
+offsets = PackedFloat32Array(0, 0.22343, 0.637701, 0.996377)
+colors = PackedColorArray(1, 1, 1, 1, 0.569023, 0.436473, 0.782256, 1, 0.1161, 0.43, 0.215502, 1, 0.2, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vbegm"]
+gradient = SubResource("Gradient_ehkex")
+width = 32
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ykrsh"]
+render_priority = 0
+shader = ExtResource("4_g14j6")
+shader_parameter/albedo_texture = ExtResource("5_xersf")
+shader_parameter/uv_scale = 0.582
+shader_parameter/backface_albedo_texture = SubResource("GradientTexture2D_ehkex")
+shader_parameter/backface_uv_scale = 1.75
+shader_parameter/shadow_gradient = SubResource("GradientTexture1D_vbegm")
+
+[sub_resource type="Resource" id="Resource_g14j6"]
+resource_name = "Floor"
+script = ExtResource("3_g14j6")
+generation_mode = 0
+texture = ExtResource("5_xersf")
+uv_scale = 0.582
+shadow_mode = 0
+material = SubResource("ShaderMaterial_ykrsh")
+expand = 10.275
+height = 0.0
+flatten = false
+shadow = 0.0
+override_start_shadow = false
+start_shadow = 0.0
+metadata/_custom_type_script = "uid://qiln4rknj40s"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vbegm"]
+render_priority = 0
+shader = ExtResource("7_ehkex")
+shader_parameter/albedo_texture = ExtResource("5_xersf")
+shader_parameter/uv_scale = 1.911
+shader_parameter/backface_albedo_texture = SubResource("GradientTexture2D_ehkex")
+shader_parameter/backface_uv_scale = 1.75
+shader_parameter/shadow_gradient = SubResource("GradientTexture1D_vbegm")
+
+[sub_resource type="Resource" id="Resource_ehkex"]
+resource_name = "Wall (-7.4 h)"
+script = ExtResource("3_g14j6")
+generation_mode = 2
+texture = ExtResource("5_xersf")
+uv_scale = 1.911
+shadow_mode = 1
+material = SubResource("ShaderMaterial_vbegm")
+expand = -2.865
+height = -7.43
+flatten = false
+shadow = -0.66
+override_start_shadow = true
+start_shadow = 0.29
+metadata/_custom_type_script = "uid://qiln4rknj40s"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xersf"]
+render_priority = 0
+shader = ExtResource("7_ehkex")
+shader_parameter/albedo_texture = ExtResource("5_xersf")
+shader_parameter/uv_scale = 0.259
+shader_parameter/backface_albedo_texture = SubResource("GradientTexture2D_ehkex")
+shader_parameter/backface_uv_scale = 1.75
+shader_parameter/shadow_gradient = SubResource("GradientTexture1D_vbegm")
+
+[sub_resource type="Resource" id="Resource_77dp3"]
+resource_name = "Wall (flat)"
+script = ExtResource("3_g14j6")
+generation_mode = 2
+texture = ExtResource("5_xersf")
+uv_scale = 0.259
+shadow_mode = 1
+material = SubResource("ShaderMaterial_xersf")
+expand = 0.0
+height = 0.0
+flatten = true
+shadow = 1.305
+override_start_shadow = false
+start_shadow = 0.0
+metadata/_custom_type_script = "uid://qiln4rknj40s"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5tkv4"]
+render_priority = 0
+shader = ExtResource("4_g14j6")
+shader_parameter/albedo_texture = ExtResource("5_xersf")
+shader_parameter/uv_scale = 1.0
+shader_parameter/backface_albedo_texture = SubResource("GradientTexture2D_ehkex")
+shader_parameter/backface_uv_scale = 1.75
+shader_parameter/shadow_gradient = SubResource("GradientTexture1D_vbegm")
+
+[sub_resource type="Resource" id="Resource_b0q6j"]
+resource_name = "Roof (flat)"
+script = ExtResource("3_g14j6")
+generation_mode = 1
+texture = ExtResource("5_xersf")
+uv_scale = 1.0
+shadow_mode = 0
+material = SubResource("ShaderMaterial_5tkv4")
+expand = 0.0
+height = 0.0
+flatten = true
+shadow = 0.0
+override_start_shadow = false
+start_shadow = 0.0
+metadata/_custom_type_script = "uid://qiln4rknj40s"
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ykrsh"]
+gradient = SubResource("Gradient_ehkex")
+width = 32
+
+[sub_resource type="Resource" id="Resource_00tp4"]
+script = ExtResource("4_vbegm")
+name = "Test"
+layers = Array[ExtResource("3_g14j6")]([SubResource("Resource_g14j6"), SubResource("Resource_ehkex"), SubResource("Resource_77dp3"), SubResource("Resource_b0q6j")])
+backface_texture = SubResource("GradientTexture2D_ehkex")
+backface_uv_scale = 1.75
+shadow_gradient = SubResource("Gradient_ehkex")
+shadow_gradient_texture = SubResource("GradientTexture1D_ykrsh")
+collision_expand = 0.0
+path_width = 1.25
+path_endcap_distance = 1.25
+smooth_steps = 6
+smooth_distance = 8.0
+metadata/_custom_type_script = "uid://d3w4mhtjatd6a"
+
+[sub_resource type="Curve3D" id="Curve3D_g14j6"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1.605, 0, 3.214, 0, 0, 0, 0, 0, 0, 3.393, 0, -5.603, 0, 0, 0, 0, 0, 0, 2.069, 0, 6.138, 0, 0, 0, 0, 0, 0, 1.535, 0, 7.265),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="Curve3D" id="Curve3D_vbegm"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1.605, 0, 3.214, 0, 0, 0, 0, 0, 0, 3.393, 0, -5.603, 0, 0, 0, 0, 0, 0, 6.364, 0, 7.893, 0, 0, 0, 0, 0, 0, 1.535, 0, 7.265),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="Curve3D" id="Curve3D_ehkex"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -2.625, 0, 8.899, 0, 0, 0, 0, 0, 0, 3.393, 0, -5.603, 0, 0, 0, 0, 0, 0, 6.364, 0, 7.893, 0, 0, 0, 0, 0, 0, 1.535, 0, 7.265),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="Curve3D" id="Curve3D_xersf"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -6.785, 0, 1.189, 0, 0, 0, 0, 0, 0, 3.393, 0, -5.623, 0, 0, 0, 0, 0, 0, 6.364, 0, 1.658, 0, 0, 0, 0, 0, 0, 1.535, 0, 7.265),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="Curve3D" id="Curve3D_77dp3"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -6.785, 0, -0.101, 0, 0, 0, 0, 0, 0, 3.393, 0, -5.623, 0, 0, 0, 0, 0, 0, -0.916, 0, 1.058, 0, 0, 0, 0, 0, 0, 1.535, 0, 7.265),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="Curve3D" id="Curve3D_0m0f1"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -6.785, 0, -0.101, 0, 0, 0, 0, 0, 0, 3.393, 0, -5.623, 0, 0, 0, 0, 0, 0, -0.916, 0, 1.058, 0, 0, 0, 0, 0, 0, 1.535, 0, 7.265),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="Curve3D" id="Curve3D_b0q6j"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -6.785, 0, -0.101, 0, 0, 0, 0, 0, 0, 3.393, 0, -5.623, 0, 0, 0, 0, 0, 0, -0.916, 0, 1.058, 0, 0, 0, 0, 0, 0, 1.535, 0, 7.265),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="Curve3D" id="Curve3D_mhym6"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -6.785, 0, -0.101, 0, 0, 0, 0, 0, 0, 3.393, 0, -5.623, 0, 0, 0, 0, 0, 0, -0.916, 0, 1.058, 0, 0, 0, 0, 0, 0, 1.535, 0, 7.265),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="Curve3D" id="Curve3D_a3se8"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -6.785, 0, -0.101, 0, 0, 0, 0, 0, 0, 3.393, 0, -5.623, 0, 0, 0, 0, 0, 0, -0.916, 0, 1.058, 0, 0, 0, 0, 0, 0, 1.535, 0, 7.265),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="Curve3D" id="Curve3D_uty7l"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -6.785, 0, -0.101, 0, 0, 0, 0, 0, 0, 3.393, 0, -5.623, 0, 0, 0, 0, 0, 0, -0.916, 0, 1.058, 0, 0, 0, 0, 0, 0, 1.535, 0, 7.265),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="Curve3D" id="Curve3D_45l4g"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -6.785, 0, -0.101, 0, 0, 0, 0, 0, 0, 3.393, 0, -5.623, 0, 0, 0, 0, 0, 0, -0.916, 0, 1.058, 0, 0, 0, 0, 0, 0, 1.535, 0, 7.265),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="Curve3D" id="Curve3D_5tkv4"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1.60451, 0, -1.27077, 0, 0, 0, 0, 0, 0, 3.39271, 0, -2.28798, 0, 0, 0, 0, 0, 0, 2.06873, 0, 2.12799),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MTBaker" type="Node3D" parent="." node_paths=PackedStringArray("baked_scene")]
+script = ExtResource("1_8uh7m")
+baked_scene_path = "res://test_MT.tscn"
+baked_scene = NodePath("MTBaked")
+metadata/_custom_type_script = "uid://mx6yfnt8i65"
+
+[node name="MTBrush3D" type="Node3D" parent="MTBaker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.2614, -4.41788, -5.10883)
+script = ExtResource("2_6uqi0")
+curve_3d = SubResource("Curve3D_00tp4")
+material = SubResource("Resource_00tp4")
+metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
+
+[node name="MTBrush3D2" type="Node3D" parent="MTBaker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.6949, -4.89788, 19.407)
+script = ExtResource("2_6uqi0")
+curve_3d = SubResource("Curve3D_g14j6")
+material = SubResource("Resource_00tp4")
+metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
+
+[node name="MTBrush3D3" type="Node3D" parent="MTBaker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.99726, -8.53965, 8.56241)
+script = ExtResource("2_6uqi0")
+curve_3d = SubResource("Curve3D_vbegm")
+material = SubResource("Resource_00tp4")
+metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
+
+[node name="MTBrush3D4" type="Node3D" parent="MTBaker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.669, -2.37216, 13.6017)
+script = ExtResource("2_6uqi0")
+curve_3d = SubResource("Curve3D_ehkex")
+material = SubResource("Resource_00tp4")
+metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
+
+[node name="MTBrush3D5" type="Node3D" parent="MTBaker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.862, -4.898, 26.466)
+script = ExtResource("2_6uqi0")
+curve_3d = SubResource("Curve3D_xersf")
+material = SubResource("Resource_00tp4")
+metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
+
+[node name="MTBrush3D6" type="Node3D" parent="MTBaker"]
+transform = Transform3D(-0.20984, 0, 0.977736, 0, 1, 0, -0.977736, 0, -0.20984, -14.3554, -0.610052, 25.5755)
+script = ExtResource("2_6uqi0")
+curve_3d = SubResource("Curve3D_77dp3")
+material = SubResource("Resource_00tp4")
+metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
+
+[node name="MTBrush3D7" type="Node3D" parent="MTBaker"]
+transform = Transform3D(-0.20984, 0, 0.977736, 0, 1, 0, -0.977736, 0, -0.20984, -4.05556, -7.06337, 19.1697)
+script = ExtResource("2_6uqi0")
+curve_3d = SubResource("Curve3D_0m0f1")
+material = SubResource("Resource_00tp4")
+metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
+
+[node name="MTBrush3D8" type="Node3D" parent="MTBaker"]
+transform = Transform3D(-0.20984, 0, 0.977736, 0, 1, 0, -0.977736, 0, -0.20984, 1.40771, -5.81142, 23.9343)
+script = ExtResource("2_6uqi0")
+curve_3d = SubResource("Curve3D_b0q6j")
+material = SubResource("Resource_00tp4")
+metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
+
+[node name="MTBrush3D9" type="Node3D" parent="MTBaker"]
+transform = Transform3D(-0.20984, 0, 0.977736, 0, 1, 0, -0.977736, 0, -0.20984, -10.2709, 0.455657, 32.9132)
+script = ExtResource("2_6uqi0")
+curve_3d = SubResource("Curve3D_mhym6")
+material = SubResource("Resource_00tp4")
+metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
+
+[node name="MTBrush3D10" type="Node3D" parent="MTBaker"]
+transform = Transform3D(-0.20984, 0, 0.977736, 0, 1, 0, -0.977736, 0, -0.20984, -13.4533, -3.51195, 9.17055)
+script = ExtResource("2_6uqi0")
+curve_3d = SubResource("Curve3D_a3se8")
+material = SubResource("Resource_00tp4")
+metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
+
+[node name="MTBrush3D11" type="Node3D" parent="MTBaker"]
+transform = Transform3D(-0.20984, 0, 0.977736, 0, 1, 0, -0.977736, 0, -0.20984, 0.560991, 2.93077, 29.2498)
+script = ExtResource("2_6uqi0")
+curve_3d = SubResource("Curve3D_uty7l")
+material = SubResource("Resource_00tp4")
+metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
+
+[node name="MTBrush3D12" type="Node3D" parent="MTBaker"]
+transform = Transform3D(-0.20984, 0, 0.977736, 0, 1, 0, -0.977736, 0, -0.20984, 3.3884, -4.18975, 30.1405)
+script = ExtResource("2_6uqi0")
+curve_3d = SubResource("Curve3D_45l4g")
+material = SubResource("Resource_00tp4")
+metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
+
+[node name="MTBaked" parent="MTBaker" instance_placeholder="res://test_MT.tscn"]
+visible = false
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_5tkv4")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.643215, -0.353104, 0.679406, 0, 0.887317, 0.46116, -0.765685, 0.296625, -0.570736, 103.876, 66.7912, -95.7399)
+fov = 23.9098
+
+[node name="Label3D" type="Label3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.699, -2.465, -11.239)
+visible = false
+text = "pre-bake"
+font_size = 128
+outline_size = 0
+horizontal_alignment = 2
+vertical_alignment = 2
