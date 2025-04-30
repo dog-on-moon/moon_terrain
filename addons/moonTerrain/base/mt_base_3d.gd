@@ -23,6 +23,10 @@ const VIEW_NODES_IN_EDITOR := false
 		flatten_height = x
 		update()
 
+## Determines if this moonTerrain is a negative.
+## When baking, this brush will subtract from the final terrain.
+@export var negative := false
+
 ## Determines if the mesh is only generated in the editor.
 ## (Using MTBaker is recommended for runtime performance.)
 @export var editor_only := true

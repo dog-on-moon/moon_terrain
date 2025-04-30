@@ -67,6 +67,8 @@ func bake():
 			mt_csg.mesh = mt._generate_mesh()
 			mesh_csg.add_child(mt_csg)
 			mt_csg.transform = mt.global_transform
+			if mt.negative:
+				mt_csg.operation = CSGShape3D.OPERATION_SUBTRACTION
 		root_csg.add_child(mesh_csg)
 	
 	await get_tree().process_frame
@@ -93,6 +95,8 @@ func bake():
 			mt_csg.mesh = mt._generate_collision_mesh()
 			collision_csg.add_child(mt_csg)
 			mt_csg.transform = mt.global_transform
+			if mt.negative:
+				mt_csg.operation = CSGShape3D.OPERATION_SUBTRACTION
 		
 		await get_tree().process_frame
 		
