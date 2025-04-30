@@ -42,10 +42,15 @@ func bake():
 		return
 	
 	# Remove old baked scene.
+	var make_visible := false
 	if baked_scene:
+		make_visible = baked_scene.visible
 		baked_scene.get_parent().remove_child(baked_scene)
 		baked_scene.queue_free()
 		baked_scene = null
+		
+		await get_tree().process_frame
+		await get_tree().process_frame
 	
 	# Setup new baked scene.
 	baked_scene = Node3D.new()
@@ -54,50 +59,71 @@ func bake():
 	
 	# Setup bake heirarchy.
 	var material_to_mt: Dictionary[MTMaterial, Array] = {}
+	var negative_mt: Array[MTBase3D] = []
 	for mt in get_mt_nodes(self):
 		material_to_mt.get_or_add(mt.material, []).append(mt)
+		if mt.material.negative:
+			negative_mt.append(mt)
 	
 	## Setup mesh bake.
 	var root_csg := CSGCombiner3D.new()
 	for material in material_to_mt:
 		## Setup mesh CSG.
 		var mesh_csg := CSGCombiner3D.new()
+		if material.negative:
+			mesh_csg.operation = CSGShape3D.OPERATION_SUBTRACTION
 		for mt: MTBase3D in material_to_mt[material]:
+			if not mt.include_in_baking:
+				continue
 			var mt_csg := CSGMesh3D.new()
 			mt_csg.mesh = mt._generate_mesh()
 			mesh_csg.add_child(mt_csg)
 			mt_csg.transform = mt.global_transform
-			if mt.negative:
-				mt_csg.operation = CSGShape3D.OPERATION_SUBTRACTION
 		root_csg.add_child(mesh_csg)
 	
+	await get_tree().process_frame
 	await get_tree().process_frame
 	
 	var mesh_instance_3d := MeshInstance3D.new()
 	mesh_instance_3d.mesh = root_csg.bake_static_mesh()
-	mesh_instance_3d.mesh.lightmap_unwrap(Transform3D.IDENTITY, 1.0 / 16.0)
+	if mesh_instance_3d.mesh:
+		mesh_instance_3d.mesh.lightmap_unwrap(Transform3D.IDENTITY, 1.0 / 16.0)
 	baked_scene.add_child(mesh_instance_3d)
 	mesh_instance_3d.name = "MeshInstance3D"
 	mesh_instance_3d.owner = baked_scene
 	root_csg.queue_free()
 	
-	for surf_idx in mesh_instance_3d.mesh.get_surface_count():
-		var s := mesh_instance_3d.mesh.surface_get_material(surf_idx)
-		if s and (not s.resource_path or not FileAccess.file_exists(s.resource_path)):
-			push_warning("Generated mesh surface idx %s using non-external resource, this incurs a performance penalty." % surf_idx)
+	if mesh_instance_3d.mesh:
+		for surf_idx in mesh_instance_3d.mesh.get_surface_count():
+			var s := mesh_instance_3d.mesh.surface_get_material(surf_idx)
+			if s and (not s.resource_path or not FileAccess.file_exists(s.resource_path)):
+				push_warning("Generated mesh surface idx %s using non-external resource, this incurs a performance penalty." % surf_idx)
 	
 	## Setup collision bake.
+	var negative_csg := CSGCombiner3D.new()
+	negative_csg.operation = CSGShape3D.OPERATION_SUBTRACTION
+	for mt in negative_mt:
+		var mt_csg := CSGMesh3D.new()
+		mt_csg.mesh = mt._generate_collision_mesh()
+		negative_csg.add_child(mt_csg)
+		mt_csg.transform = mt.global_transform
+	
 	for material in material_to_mt:
+		if material.negative:
+			continue
+		
 		## Setup collision CSG.
 		var collision_csg := CSGCombiner3D.new()
 		for mt: MTBase3D in material_to_mt[material]:
+			if not mt.include_in_baking:
+				continue
 			var mt_csg := CSGMesh3D.new()
 			mt_csg.mesh = mt._generate_collision_mesh()
 			collision_csg.add_child(mt_csg)
 			mt_csg.transform = mt.global_transform
-			if mt.negative:
-				mt_csg.operation = CSGShape3D.OPERATION_SUBTRACTION
+		collision_csg.add_child(negative_csg)
 		
+		await get_tree().process_frame
 		await get_tree().process_frame
 		
 		## Setup material collision.
@@ -115,7 +141,10 @@ func bake():
 		material_body.owner = baked_scene
 		
 		## Remove collision CSG.
+		collision_csg.remove_child(negative_csg)
 		collision_csg.queue_free()
+	
+	negative_csg.queue_free()
 	
 	# Finalize bake.
 	var packed_scene := PackedScene.new()
@@ -142,7 +171,7 @@ func bake():
 				baked_scene.owner = owner
 				baked_scene.scene_file_path = baked_scene_path
 				baked_scene.set_scene_instance_load_placeholder(true)
-				baked_scene.visible = false
+				baked_scene.visible = make_visible
 
 static func get_mt_nodes(root: Node) -> Array[MTBase3D]:
 	var a: Array[MTBase3D] = []

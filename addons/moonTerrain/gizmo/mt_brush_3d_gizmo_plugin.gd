@@ -66,7 +66,8 @@ func _begin_handle_action(gizmo: EditorNode3DGizmo, handle_id: int, secondary: b
 		current_brush.curve_3d.add_point(current_brush.curve_3d.get_point_position(handle_id), Vector3.ZERO, Vector3.ZERO, idx)
 
 func _set_handle(gizmo: EditorNode3DGizmo, handle_id: int, secondary: bool, camera: Camera3D, screen_pos: Vector2) -> void:
-	var raycast := _raycast(camera, screen_pos, gizmo.get_node_3d().get_viewport())
+	var point_pos := gizmo.get_node_3d().transform * current_brush.curve_3d.get_point_position(handle_id)
+	var raycast := _raycast(camera, screen_pos, gizmo.get_node_3d().get_viewport(), point_pos)
 	raycast.position = gizmo.get_node_3d().transform.affine_inverse() * raycast.position
 	if not Input.is_key_pressed(KEY_CTRL):
 		var snap := get_snap()
@@ -101,26 +102,38 @@ func _commit_handle(gizmo: EditorNode3DGizmo, handle_id: int, secondary: bool, r
 	
 	_redraw(gizmo)
 
-func _raycast(camera: Camera3D, position: Vector2, viewport: Viewport) -> Dictionary:
-	# Project the mouse position onto the XZ plane, call relevant events.
-	var from := camera.global_position
-	var to := camera.project_position(position, 10000.0)
-	
-	# Project onto the XZ plane using the reference pos.
-	if not Input.is_key_pressed(KEY_ALT):
-		var t := inverse_lerp(from.y, to.y, start_pos.y)
-		var pos := from.lerp(to, t)
-		return {'position': from.lerp(to, t)}
+func _raycast(camera: Camera3D, position: Vector2, viewport: Viewport, point_pos: Vector3) -> Dictionary:
+	if camera.projection == Camera3D.PROJECTION_ORTHOGONAL:
+		# Mouse position is locked onto whatever plane we're looking at.
+		var from := camera.project_position(position, 0.0)
+		var to := camera.project_position(position, 0.01)
+		
+		var plane := Plane(camera.basis.z, point_pos)
+		var intersection := plane.intersects_ray(from, to - from)
+		if intersection:
+			return {'position': intersection}
+		else:
+			return {'position': point_pos}
 	else:
-		# When we are holding alt, we lock movement to Y axis only
-		var alting_pos: Vector3 = current_brush.global_transform * current_brush.curve_3d.get_point_position(idx)
-		var plane_normal := (alting_pos - from)
-		plane_normal.y = 0.0
-		plane_normal.normalized()
-		var plane := Plane(plane_normal, alting_pos)
-		var intersection: Vector3 = plane.intersects_ray(from, to)
-		start_pos.y = intersection.y
-		return {'position': Vector3(alting_pos.x, intersection.y, alting_pos.z)}
+		# Project the mouse position onto the XZ plane, call relevant events.
+		var from := camera.global_position
+		var to := camera.project_position(position, 10000.0)
+		
+		# Project onto the XZ plane using the reference pos.
+		if not Input.is_key_pressed(KEY_ALT):
+			var t := inverse_lerp(from.y, to.y, start_pos.y)
+			var pos := from.lerp(to, t)
+			return {'position': from.lerp(to, t)}
+		else:
+			# When we are holding alt, we lock movement to Y axis only
+			var alting_pos: Vector3 = current_brush.global_transform * current_brush.curve_3d.get_point_position(idx)
+			var plane_normal := (alting_pos - from)
+			plane_normal.y = 0.0
+			plane_normal.normalized()
+			var plane := Plane(plane_normal, alting_pos)
+			var intersection: Vector3 = plane.intersects_ray(from, to)
+			start_pos.y = intersection.y
+			return {'position': Vector3(alting_pos.x, intersection.y, alting_pos.z)}
 
 func get_snap() -> float:
 	return 1.0 / maxf(0.001, EditorInterface.get_editor_settings().get_project_metadata("3d_editor", "snap_translate_value", 1.0))

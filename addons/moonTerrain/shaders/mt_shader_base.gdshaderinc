@@ -1,4 +1,6 @@
+#ifdef HAS_BACKFACE
 render_mode cull_disabled;
+#endif
 
 // #define SHADOW_REPLACE
 
@@ -7,8 +9,10 @@ const float TRIPLANAR_SHARPNESS = 64.0;
 
 uniform sampler2D albedo_texture : repeat_enable, filter_linear_mipmap_anisotropic;
 uniform float uv_scale;
+#ifdef HAS_BACKFACE
 uniform sampler2D backface_albedo_texture : repeat_enable, filter_linear_mipmap_anisotropic;
 uniform float backface_uv_scale;
+#endif
 uniform sampler2D shadow_gradient : repeat_disable, filter_linear;
 
 varying vec3 WORLD_VERTEX;
@@ -38,11 +42,13 @@ vec3 get_albedo(vec2 uv, bool front_facing) {
 	#endif
 	
 	// Backface
+	#ifdef HAS_BACKFACE
 	albedo = mix(
 		albedo,
 		texture(backface_albedo_texture, TRIPLANAR_UV * backface_uv_scale, TEXTURE_BIAS).rgb,
 		float(!front_facing)
 	);
+	#endif
 	
 	return albedo;
 }

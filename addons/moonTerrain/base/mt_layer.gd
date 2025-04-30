@@ -116,23 +116,32 @@ func create_layer(mt3d: MTBase3D, curve: Curve3D, material: MTMaterial, mesher: 
 		_:
 			assert(false)
 			
-const VARIANT_0 = preload("res://addons/moonTerrain/shaders/variant_0.gdshader")
-const VARIANT_1 = preload("res://addons/moonTerrain/shaders/variant_1.gdshader")
+const VARIANT_00 = preload("res://addons/moonTerrain/shaders/variant_00.gdshader")
+const VARIANT_01 = preload("res://addons/moonTerrain/shaders/variant_01.gdshader")
+const VARIANT_10 = preload("res://addons/moonTerrain/shaders/variant_10.gdshader")
+const VARIANT_11 = preload("res://addons/moonTerrain/shaders/variant_11.gdshader")
 
 func update_shader_parameters(mtmaterial: MTMaterial):
 	_update_name()
 	
 	# Update the current shader.
 	if shadow_mode == ShadowMode.Replace:
-		material.shader = VARIANT_1
+		if mtmaterial.backface_texture:
+			material.shader = VARIANT_11
+		else:
+			material.shader = VARIANT_10
 	else:
-		material.shader = VARIANT_0
+		if mtmaterial.backface_texture:
+			material.shader = VARIANT_01
+		else:
+			material.shader = VARIANT_00
 	
 	# Update shader parameters.
 	material.set_shader_parameter(&"albedo_texture", texture)
 	material.set_shader_parameter(&"uv_scale", uv_scale)
-	material.set_shader_parameter(&"backface_albedo_texture", mtmaterial.backface_texture)
-	material.set_shader_parameter(&"backface_uv_scale", mtmaterial.backface_uv_scale)
+	if mtmaterial.backface_texture:
+		material.set_shader_parameter(&"backface_albedo_texture", mtmaterial.backface_texture)
+		material.set_shader_parameter(&"backface_uv_scale", mtmaterial.backface_uv_scale)
 	material.set_shader_parameter(&"shadow_gradient", mtmaterial.shadow_gradient_texture)
 
 func _validate_property(property: Dictionary) -> void:

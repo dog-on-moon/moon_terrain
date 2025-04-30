@@ -1,13 +1,16 @@
-[gd_scene load_steps=40 format=3 uid="uid://cklg4qw25rxjw"]
+[gd_scene load_steps=65 format=3 uid="uid://cklg4qw25rxjw"]
 
 [ext_resource type="Script" uid="uid://mx6yfnt8i65" path="res://addons/moonTerrain/base/mt_baker.gd" id="1_8uh7m"]
 [ext_resource type="Script" uid="uid://b3kwqvw5yx6jh" path="res://addons/moonTerrain/base/mt_brush_3d.gd" id="2_6uqi0"]
 [ext_resource type="Script" uid="uid://qiln4rknj40s" path="res://addons/moonTerrain/base/mt_layer.gd" id="3_g14j6"]
 [ext_resource type="Material" uid="uid://cccctwwm776uf" path="res://test1.tres" id="4_00tp4"]
-[ext_resource type="Shader" uid="uid://csku7g3762f4l" path="res://addons/moonTerrain/shaders/variant_0.gdshader" id="4_g14j6"]
+[ext_resource type="Shader" uid="uid://csku7g3762f4l" path="res://addons/moonTerrain/shaders/variant_00.gdshader" id="4_g14j6"]
 [ext_resource type="Script" uid="uid://d3w4mhtjatd6a" path="res://addons/moonTerrain/base/mt_material.gd" id="4_vbegm"]
 [ext_resource type="Texture2D" uid="uid://c6xnv7aldbakm" path="res://icon.svg" id="5_xersf"]
-[ext_resource type="Shader" uid="uid://dchojyufmwrus" path="res://addons/moonTerrain/shaders/variant_1.gdshader" id="7_ehkex"]
+[ext_resource type="Shader" uid="uid://dmtes0vkx2244" path="res://addons/moonTerrain/shaders/variant_11.gdshader" id="6_00tp4"]
+[ext_resource type="Shader" uid="uid://cr3pt2t1qqdmd" path="res://addons/moonTerrain/shaders/variant_01.gdshader" id="7_77dp3"]
+[ext_resource type="Script" uid="uid://yrf2tl6w1ct6" path="res://addons/moonTerrain/base/mt_path_3d.gd" id="10_5tkv4"]
+[ext_resource type="Script" uid="uid://b6xq7nl1am8qh" path="res://addons/moonTerrain/data/tree_curve_3d.gd" id="11_0m0f1"]
 [ext_resource type="LightmapGIData" uid="uid://cw0l4f73eq3l6" path="res://test.lmbake" id="11_77dp3"]
 
 [sub_resource type="Curve3D" id="Curve3D_00tp4"]
@@ -44,18 +47,18 @@ metadata/_custom_type_script = "uid://qiln4rknj40s"
 offsets = PackedFloat32Array(0, 0.22343, 0.637701, 0.996377)
 colors = PackedColorArray(1, 1, 1, 1, 0.569023, 0.436473, 0.782256, 1, 0.1161, 0.43, 0.215502, 1, 0.2, 0, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_ykrsh"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_00tp4"]
 gradient = SubResource("Gradient_ehkex")
 width = 32
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vbegm"]
 render_priority = 0
-shader = ExtResource("7_ehkex")
+shader = ExtResource("6_00tp4")
 shader_parameter/albedo_texture = ExtResource("5_xersf")
 shader_parameter/uv_scale = 1.911
 shader_parameter/backface_albedo_texture = SubResource("GradientTexture2D_ehkex")
 shader_parameter/backface_uv_scale = 1.75
-shader_parameter/shadow_gradient = SubResource("GradientTexture1D_ykrsh")
+shader_parameter/shadow_gradient = SubResource("GradientTexture1D_00tp4")
 
 [sub_resource type="Resource" id="Resource_ehkex"]
 resource_name = "Wall (-0.9 h)"
@@ -75,12 +78,12 @@ metadata/_custom_type_script = "uid://qiln4rknj40s"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xersf"]
 render_priority = 0
-shader = ExtResource("7_ehkex")
+shader = ExtResource("6_00tp4")
 shader_parameter/albedo_texture = ExtResource("5_xersf")
 shader_parameter/uv_scale = 0.259
 shader_parameter/backface_albedo_texture = SubResource("GradientTexture2D_ehkex")
 shader_parameter/backface_uv_scale = 1.75
-shader_parameter/shadow_gradient = SubResource("GradientTexture1D_ykrsh")
+shader_parameter/shadow_gradient = SubResource("GradientTexture1D_00tp4")
 
 [sub_resource type="Resource" id="Resource_77dp3"]
 resource_name = "Wall (flat)"
@@ -100,12 +103,12 @@ metadata/_custom_type_script = "uid://qiln4rknj40s"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5tkv4"]
 render_priority = 0
-shader = ExtResource("4_g14j6")
+shader = ExtResource("7_77dp3")
 shader_parameter/albedo_texture = ExtResource("5_xersf")
 shader_parameter/uv_scale = 1.0
 shader_parameter/backface_albedo_texture = SubResource("GradientTexture2D_ehkex")
 shader_parameter/backface_uv_scale = 1.75
-shader_parameter/shadow_gradient = SubResource("GradientTexture1D_ykrsh")
+shader_parameter/shadow_gradient = SubResource("GradientTexture1D_00tp4")
 
 [sub_resource type="Resource" id="Resource_b0q6j"]
 resource_name = "Roof (flat)"
@@ -123,14 +126,23 @@ override_start_shadow = false
 start_shadow = 0.0
 metadata/_custom_type_script = "uid://qiln4rknj40s"
 
+[sub_resource type="Gradient" id="Gradient_77dp3"]
+offsets = PackedFloat32Array(0, 0.22343, 0.637701, 0.996377)
+colors = PackedColorArray(1, 1, 1, 1, 0.569023, 0.436473, 0.782256, 1, 0.1161, 0.43, 0.215502, 1, 0.2, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xersf"]
+gradient = SubResource("Gradient_77dp3")
+width = 32
+
 [sub_resource type="Resource" id="Resource_00tp4"]
 script = ExtResource("4_vbegm")
 name = "Test"
 layers = Array[ExtResource("3_g14j6")]([SubResource("Resource_g14j6"), SubResource("Resource_ehkex"), SubResource("Resource_77dp3"), SubResource("Resource_b0q6j")])
+negative = false
 backface_texture = SubResource("GradientTexture2D_ehkex")
 backface_uv_scale = 1.75
 shadow_gradient = SubResource("Gradient_ehkex")
-shadow_gradient_texture = SubResource("GradientTexture1D_ykrsh")
+shadow_gradient_texture = SubResource("GradientTexture1D_xersf")
 collision_expand = 0.0
 path_width = 1.25
 path_endcap_distance = 1.25
@@ -250,11 +262,196 @@ _data = {
 }
 point_count = 14
 
+[sub_resource type="Curve3D" id="Curve3D_a6gra"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -12, 0.000366211, 16, 0, 0, 0, 0, 0, 0, -16, 0.000366211, 12, 0, 0, 0, 0, 0, 0, -16, 0.000366211, 4, 0, 0, 0, 0, 0, 0, -12, 0.000366211, 0, 0, 0, 0, 0, 0, 0, -4, 0.0671387, 0, 0, 0, 0, 0, 0, 0, 0, 0.0670166, 4, 0, 0, 0, 0, 0, 0, 0, 0.00012207, 12, 0, 0, 0, 0, 0, 0, -4, 0.00012207, 16),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 8
+
+[sub_resource type="Curve3D" id="Curve3D_dwqlq"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -5, 4.76837e-07, 3, 0, 0, 0, 0, 0, 0, 6, -4.76837e-07, -5, 0, 0, 0, 0, 0, 0, 8, 4.76837e-07, -1, 0, 0, 0, 0, 0, 0, -2, -4.76837e-07, 6),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0m0f1"]
+render_priority = 0
+shader = ExtResource("4_g14j6")
+shader_parameter/albedo_texture = ExtResource("5_xersf")
+shader_parameter/uv_scale = 0.283
+shader_parameter/shadow_gradient = SubResource("GradientTexture1D_xersf")
+
+[sub_resource type="Resource" id="Resource_mhym6"]
+resource_name = "Floor"
+script = ExtResource("3_g14j6")
+generation_mode = 0
+texture = ExtResource("5_xersf")
+uv_scale = 0.283
+shadow_mode = 0
+material = SubResource("ShaderMaterial_0m0f1")
+expand = 0.0
+height = 0.0
+flatten = false
+shadow = 0.0
+override_start_shadow = false
+start_shadow = 0.0
+metadata/_custom_type_script = "uid://qiln4rknj40s"
+
+[sub_resource type="Resource" id="Resource_a3se8"]
+resource_name = "Wall (-0.2 h)"
+script = ExtResource("3_g14j6")
+generation_mode = 2
+texture = ExtResource("5_xersf")
+uv_scale = 0.283
+shadow_mode = 0
+material = SubResource("ShaderMaterial_0m0f1")
+expand = 0.515
+height = -0.25
+flatten = false
+shadow = 0.0
+override_start_shadow = false
+start_shadow = 0.0
+metadata/_custom_type_script = "uid://qiln4rknj40s"
+
+[sub_resource type="Resource" id="Resource_uty7l"]
+resource_name = "Wall (-0.2 h)"
+script = ExtResource("3_g14j6")
+generation_mode = 2
+texture = ExtResource("5_xersf")
+uv_scale = 0.283
+shadow_mode = 0
+material = SubResource("ShaderMaterial_0m0f1")
+expand = 0.29
+height = -0.24
+flatten = false
+shadow = 0.0
+override_start_shadow = false
+start_shadow = 0.0
+metadata/_custom_type_script = "uid://qiln4rknj40s"
+
+[sub_resource type="Resource" id="Resource_45l4g"]
+resource_name = "Wall (flat)"
+script = ExtResource("3_g14j6")
+generation_mode = 2
+texture = ExtResource("5_xersf")
+uv_scale = 0.283
+shadow_mode = 0
+material = SubResource("ShaderMaterial_0m0f1")
+expand = 0.0
+height = 0.0
+flatten = true
+shadow = 0.845
+override_start_shadow = false
+start_shadow = 0.0
+metadata/_custom_type_script = "uid://qiln4rknj40s"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_77dp3"]
+render_priority = 0
+shader = ExtResource("4_g14j6")
+shader_parameter/albedo_texture = ExtResource("5_xersf")
+shader_parameter/uv_scale = 4.0
+shader_parameter/shadow_gradient = SubResource("GradientTexture1D_xersf")
+
+[sub_resource type="Resource" id="Resource_4uo0j"]
+resource_name = "Roof (flat)"
+script = ExtResource("3_g14j6")
+generation_mode = 1
+texture = ExtResource("5_xersf")
+uv_scale = 4.0
+shadow_mode = 0
+material = SubResource("ShaderMaterial_77dp3")
+expand = 0.0
+height = 0.0
+flatten = true
+shadow = 0.0
+override_start_shadow = false
+start_shadow = 0.0
+metadata/_custom_type_script = "uid://qiln4rknj40s"
+
+[sub_resource type="Resource" id="Resource_vxl6d"]
+script = ExtResource("4_vbegm")
+name = "Test"
+layers = Array[ExtResource("3_g14j6")]([SubResource("Resource_mhym6"), SubResource("Resource_a3se8"), SubResource("Resource_uty7l"), SubResource("Resource_45l4g"), SubResource("Resource_4uo0j")])
+negative = true
+backface_uv_scale = 1.75
+shadow_gradient = SubResource("Gradient_77dp3")
+shadow_gradient_texture = SubResource("GradientTexture1D_xersf")
+collision_expand = 0.8
+path_width = 2.03
+path_endcap_distance = 6.04
+smooth_steps = 8
+smooth_distance = 1.0
+metadata/_custom_type_script = "uid://d3w4mhtjatd6a"
+
+[sub_resource type="Resource" id="Resource_5tkv4"]
+script = ExtResource("11_0m0f1")
+leaves = Array[ExtResource("11_0m0f1")]([])
+position = Vector3(4, 0.00012207, 8)
+root = false
+
+[sub_resource type="Resource" id="Resource_0m0f1"]
+script = ExtResource("11_0m0f1")
+leaves = Array[ExtResource("11_0m0f1")]([])
+position = Vector3(-8, 0.00012207, -4)
+root = false
+
+[sub_resource type="Resource" id="Resource_pdf00"]
+script = ExtResource("11_0m0f1")
+leaves = Array[ExtResource("11_0m0f1")]([])
+position = Vector3(-8, 0.00012207, 20)
+root = false
+
+[sub_resource type="Resource" id="Resource_a6gra"]
+script = ExtResource("11_0m0f1")
+leaves = Array[ExtResource("11_0m0f1")]([SubResource("Resource_5tkv4"), SubResource("Resource_0m0f1"), SubResource("Resource_pdf00")])
+position = Vector3(-8, 0, 8)
+root = false
+
+[sub_resource type="Resource" id="Resource_eski5"]
+script = ExtResource("11_0m0f1")
+leaves = Array[ExtResource("11_0m0f1")]([SubResource("Resource_a6gra")])
+position = Vector3(-20, 0.00012207, 8)
+root = true
+metadata/_custom_type_script = "uid://b6xq7nl1am8qh"
+
+[sub_resource type="Resource" id="Resource_15c7i"]
+script = ExtResource("11_0m0f1")
+leaves = Array[ExtResource("11_0m0f1")]([])
+position = Vector3(0, -0.000120997, -4)
+root = false
+
+[sub_resource type="Resource" id="Resource_xpeyw"]
+script = ExtResource("11_0m0f1")
+leaves = Array[ExtResource("11_0m0f1")]([])
+position = Vector3(4, -0.000120997, 0)
+root = false
+
+[sub_resource type="Resource" id="Resource_dpmuy"]
+script = ExtResource("11_0m0f1")
+leaves = Array[ExtResource("11_0m0f1")]([])
+position = Vector3(0, -0.00011909, 4)
+root = false
+
+[sub_resource type="Resource" id="Resource_yww54"]
+script = ExtResource("11_0m0f1")
+leaves = Array[ExtResource("11_0m0f1")]([SubResource("Resource_15c7i"), SubResource("Resource_xpeyw"), SubResource("Resource_dpmuy")])
+position = Vector3(0, -0.000120997, 0)
+root = false
+
+[sub_resource type="Resource" id="Resource_dwqlq"]
+script = ExtResource("11_0m0f1")
+leaves = Array[ExtResource("11_0m0f1")]([SubResource("Resource_yww54")])
+position = Vector3(-4, -0.000120997, 0)
+root = true
+
 [sub_resource type="Environment" id="Environment_5tkv4"]
 
 [node name="Node3D" type="Node3D"]
 
 [node name="MTBaker" type="Node3D" parent="." node_paths=PackedStringArray("baked_scene")]
+visible = false
 script = ExtResource("1_8uh7m")
 baked_scene_path = "res://test_MT.tscn"
 baked_scene = NodePath("MTBaked")
@@ -339,7 +536,6 @@ script = ExtResource("2_6uqi0")
 curve_3d = SubResource("Curve3D_pdf00")
 material = SubResource("Resource_00tp4")
 flatten_height = -3.805
-negative = true
 metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
 
 [node name="MTBrush3D11" type="Node3D" parent="MTBaker/Node3D"]
@@ -387,7 +583,56 @@ curve_3d = SubResource("Curve3D_eski5")
 material = SubResource("Resource_00tp4")
 metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
 
-[node name="MTBaked" type="Node3D" parent="MTBaker" instance_placeholder="res://test_MT.tscn"]
+[node name="MTBaked" parent="MTBaker" instance_placeholder="res://test_MT.tscn"]
+
+[node name="MTBaker2" type="Node3D" parent="." node_paths=PackedStringArray("baked_scene")]
+script = ExtResource("1_8uh7m")
+baked_scene_path = "res://test_MT.tscn"
+baked_scene = NodePath("MTBaked3")
+metadata/_custom_type_script = "uid://mx6yfnt8i65"
+
+[node name="Brushes" type="Node3D" parent="MTBaker2"]
+visible = false
+
+[node name="MTBrush3D10" type="Node3D" parent="MTBaker2/Brushes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("2_6uqi0")
+curve_3d = SubResource("Curve3D_a6gra")
+material = SubResource("Resource_00tp4")
+metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
+
+[node name="MTBrush3D14" type="Node3D" parent="MTBaker2/Brushes"]
+transform = Transform3D(0.976695, 0, -0.214634, 0, 1, 0, 0.214634, 0, 0.976695, -24.5483, 2.14293, 0.995993)
+visible = false
+script = ExtResource("2_6uqi0")
+curve_3d = SubResource("Curve3D_dwqlq")
+material = SubResource("Resource_vxl6d")
+flatten_height = -3.805
+metadata/_custom_type_script = "uid://b3kwqvw5yx6jh"
+
+[node name="MTPath3D" type="Node3D" parent="MTBaker2/Brushes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+script = ExtResource("10_5tkv4")
+tree_curve_3d = SubResource("Resource_eski5")
+material = SubResource("Resource_vxl6d")
+flatten_height = -8.0
+metadata/_custom_type_script = "uid://yrf2tl6w1ct6"
+
+[node name="MTPath3D2" type="Node3D" parent="MTBaker2/Brushes"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -7.89952, 1.46926, 7.89952)
+script = ExtResource("10_5tkv4")
+tree_curve_3d = SubResource("Resource_dwqlq")
+material = SubResource("Resource_vxl6d")
+flatten_height = -6.0
+metadata/_custom_type_script = "uid://yrf2tl6w1ct6"
+
+[node name="MTBaked" parent="MTBaker2" instance_placeholder="res://test_MT.tscn"]
+visible = false
+
+[node name="MTBaked2" parent="MTBaker2" instance_placeholder="res://test_MT.tscn"]
+visible = false
+
+[node name="MTBaked3" type="Node3D" parent="MTBaker2" instance_placeholder="res://test_MT.tscn"]
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-0.643215, -0.353104, 0.679406, 0, 0.887317, 0.46116, -0.765685, 0.296625, -0.570736, 103.876, 66.7912, -95.7399)

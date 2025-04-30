@@ -85,7 +85,12 @@ func _set_handle(gizmo: EditorNode3DGizmo, handle_id: int, secondary: bool, came
 	if handle_id not in idx_to_curve:
 		return
 	var curve := idx_to_curve[handle_id]
-	var raycast := _raycast(gizmo, camera, screen_pos, gizmo.get_node_3d().get_viewport(), curve)
+	var point_pos: Vector3
+	if not creating_new_point:
+		point_pos = gizmo.get_node_3d().transform * curve.position
+	else:
+		point_pos = gizmo.get_node_3d().transform * new_point.position
+	var raycast := _raycast(gizmo, camera, screen_pos, gizmo.get_node_3d().get_viewport(), curve, point_pos)
 	raycast.position = gizmo.get_node_3d().transform.affine_inverse() * raycast.position
 	if not Input.is_key_pressed(KEY_CTRL):
 		var snap := get_snap()
@@ -129,7 +134,19 @@ func _commit_handle(gizmo: EditorNode3DGizmo, handle_id: int, secondary: bool, r
 func get_depth_material(depth: int, gizmo) -> Material:
 	return get_material("depth%s" % (depth % DEPTH_MATERIALS), gizmo)
 
-func _raycast(gizmo, camera: Camera3D, position: Vector2, viewport: Viewport, curve: TreeCurve3D) -> Dictionary:
+func _raycast(gizmo, camera: Camera3D, position: Vector2, viewport: Viewport, curve: TreeCurve3D, point_pos) -> Dictionary:
+	if camera.projection == Camera3D.PROJECTION_ORTHOGONAL:
+		# Mouse position is locked onto whatever plane we're looking at.
+		var from := camera.project_position(position, 0.0)
+		var to := camera.project_position(position, 0.01)
+		
+		var plane := Plane(camera.basis.z, point_pos)
+		var intersection := plane.intersects_ray(from, to - from)
+		if intersection:
+			return {'position': intersection}
+		else:
+			return {'position': point_pos}
+	
 	# Project the mouse position onto the XZ plane, call relevant events.
 	var from := camera.global_position
 	var to := camera.project_position(position, 10000.0)

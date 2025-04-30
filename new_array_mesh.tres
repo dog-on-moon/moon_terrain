@@ -1,8 +1,8 @@
 [gd_resource type="ArrayMesh" load_steps=12 format=4 uid="uid://vptntkuj8bin"]
 
-[ext_resource type="Shader" uid="uid://csku7g3762f4l" path="res://addons/moonTerrain/shaders/variant_0.gdshader" id="1_1nhp8"]
+[ext_resource type="Shader" uid="uid://csku7g3762f4l" path="res://addons/moonTerrain/shaders/variant_00.gdshader" id="1_1nhp8"]
 [ext_resource type="Texture2D" uid="uid://c6xnv7aldbakm" path="res://icon.svg" id="2_0ug0u"]
-[ext_resource type="Shader" uid="uid://dchojyufmwrus" path="res://addons/moonTerrain/shaders/variant_1.gdshader" id="3_gr7fh"]
+[ext_resource type="Shader" uid="uid://dchojyufmwrus" path="res://addons/moonTerrain/shaders/variant_10.gdshader" id="3_gr7fh"]
 
 [sub_resource type="Gradient" id="Gradient_vbegm"]
 

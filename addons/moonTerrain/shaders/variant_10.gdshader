@@ -1,6 +1,7 @@
 shader_type spatial;
 
-//#define SHADOW_REPLACE
+#define SHADOW_REPLACE
+//#define HAS_BACKFACE
 
 #include "res://addons/moonTerrain/shaders/mt_shader_base.gdshaderinc"
 

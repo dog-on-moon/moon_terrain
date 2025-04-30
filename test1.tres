@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://cccctwwm776uf"]
 
-[ext_resource type="Shader" uid="uid://csku7g3762f4l" path="res://addons/moonTerrain/shaders/variant_0.gdshader" id="1_t0vhr"]
+[ext_resource type="Shader" uid="uid://cr3pt2t1qqdmd" path="res://addons/moonTerrain/shaders/variant_01.gdshader" id="1_t0vhr"]
 [ext_resource type="Texture2D" uid="uid://c6xnv7aldbakm" path="res://icon.svg" id="2_p7jbg"]
 
 [sub_resource type="Gradient" id="Gradient_vbegm"]
@@ -14,7 +14,7 @@ fill_to = Vector2(0.391026, 0.292735)
 offsets = PackedFloat32Array(0, 0.22343, 0.637701, 0.996377)
 colors = PackedColorArray(1, 1, 1, 1, 0.569023, 0.436473, 0.782256, 1, 0.1161, 0.43, 0.215502, 1, 0.2, 0, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_ykrsh"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_00tp4"]
 gradient = SubResource("Gradient_ehkex")
 width = 32
 
@@ -25,4 +25,4 @@ shader_parameter/albedo_texture = ExtResource("2_p7jbg")
 shader_parameter/uv_scale = 0.582
 shader_parameter/backface_albedo_texture = SubResource("GradientTexture2D_ehkex")
 shader_parameter/backface_uv_scale = 1.75
-shader_parameter/shadow_gradient = SubResource("GradientTexture1D_ykrsh")
+shader_parameter/shadow_gradient = SubResource("GradientTexture1D_00tp4")

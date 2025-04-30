@@ -23,8 +23,12 @@ signal render_changed
 					l.render_changed.connect(_update_shader_parameters)
 		_update_shader_parameters()
 
+## Determines if this layer is "negative," hollowing out other terrain during mesh bake.
+@export var negative := false
+
 @export_group("Visual")
 ## The texture of the backface.
+## If undefined, the material will have no backface.
 @export var backface_texture: Texture2D:
 	set(x):
 		if backface_texture:
