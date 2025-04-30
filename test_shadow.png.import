@@ -2,8 +2,8 @@
 
 importer="2d_array_texture"
 type="CompressedTexture2DArray"
-uid="uid://wamoekoj8mot"
-path.bptc="res://.godot/imported/test.exr-c2074adc031b4eb62ef608033f6d937a.bptc.ctexarray"
+uid="uid://bd72e31p6yt4j"
+path.s3tc="res://.godot/imported/test_shadow.png-67db7f584a5d368b6a1bc6caa839961d.s3tc.ctexarray"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://test.exr"
-dest_files=["res://.godot/imported/test.exr-c2074adc031b4eb62ef608033f6d937a.bptc.ctexarray"]
+source_file="res://test_shadow.png"
+dest_files=["res://.godot/imported/test_shadow.png-67db7f584a5d368b6a1bc6caa839961d.s3tc.ctexarray"]
 
 [params]
 
@@ -24,4 +24,4 @@ compress/channel_pack=1
 mipmaps/generate=false
 mipmaps/limit=-1
 slices/horizontal=1
-slices/vertical=4
+slices/vertical=1

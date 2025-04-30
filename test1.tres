@@ -10,12 +10,12 @@ gradient = SubResource("Gradient_vbegm")
 fill_from = Vector2(0.463675, 0.429487)
 fill_to = Vector2(0.391026, 0.292735)
 
-[sub_resource type="Gradient" id="Gradient_ehkex"]
+[sub_resource type="Gradient" id="Gradient_77dp3"]
 offsets = PackedFloat32Array(0, 0.22343, 0.637701, 0.996377)
 colors = PackedColorArray(1, 1, 1, 1, 0.569023, 0.436473, 0.782256, 1, 0.1161, 0.43, 0.215502, 1, 0.2, 0, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_00tp4"]
-gradient = SubResource("Gradient_ehkex")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xersf"]
+gradient = SubResource("Gradient_77dp3")
 width = 32
 
 [resource]
@@ -25,4 +25,4 @@ shader_parameter/albedo_texture = ExtResource("2_p7jbg")
 shader_parameter/uv_scale = 0.582
 shader_parameter/backface_albedo_texture = SubResource("GradientTexture2D_ehkex")
 shader_parameter/backface_uv_scale = 1.75
-shader_parameter/shadow_gradient = SubResource("GradientTexture1D_00tp4")
+shader_parameter/shadow_gradient = SubResource("GradientTexture1D_xersf")

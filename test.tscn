@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://cklg4qw25rxjw"]
+[gd_scene load_steps=64 format=3 uid="uid://cklg4qw25rxjw"]
 
 [ext_resource type="Script" uid="uid://mx6yfnt8i65" path="res://addons/moonTerrain/base/mt_baker.gd" id="1_8uh7m"]
 [ext_resource type="Script" uid="uid://b3kwqvw5yx6jh" path="res://addons/moonTerrain/base/mt_brush_3d.gd" id="2_6uqi0"]
@@ -43,12 +43,12 @@ override_start_shadow = false
 start_shadow = 0.0
 metadata/_custom_type_script = "uid://qiln4rknj40s"
 
-[sub_resource type="Gradient" id="Gradient_ehkex"]
+[sub_resource type="Gradient" id="Gradient_77dp3"]
 offsets = PackedFloat32Array(0, 0.22343, 0.637701, 0.996377)
 colors = PackedColorArray(1, 1, 1, 1, 0.569023, 0.436473, 0.782256, 1, 0.1161, 0.43, 0.215502, 1, 0.2, 0, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_00tp4"]
-gradient = SubResource("Gradient_ehkex")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xersf"]
+gradient = SubResource("Gradient_77dp3")
 width = 32
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vbegm"]
@@ -58,7 +58,7 @@ shader_parameter/albedo_texture = ExtResource("5_xersf")
 shader_parameter/uv_scale = 1.911
 shader_parameter/backface_albedo_texture = SubResource("GradientTexture2D_ehkex")
 shader_parameter/backface_uv_scale = 1.75
-shader_parameter/shadow_gradient = SubResource("GradientTexture1D_00tp4")
+shader_parameter/shadow_gradient = SubResource("GradientTexture1D_xersf")
 
 [sub_resource type="Resource" id="Resource_ehkex"]
 resource_name = "Wall (-0.9 h)"
@@ -83,7 +83,7 @@ shader_parameter/albedo_texture = ExtResource("5_xersf")
 shader_parameter/uv_scale = 0.259
 shader_parameter/backface_albedo_texture = SubResource("GradientTexture2D_ehkex")
 shader_parameter/backface_uv_scale = 1.75
-shader_parameter/shadow_gradient = SubResource("GradientTexture1D_00tp4")
+shader_parameter/shadow_gradient = SubResource("GradientTexture1D_xersf")
 
 [sub_resource type="Resource" id="Resource_77dp3"]
 resource_name = "Wall (flat)"
@@ -108,7 +108,7 @@ shader_parameter/albedo_texture = ExtResource("5_xersf")
 shader_parameter/uv_scale = 1.0
 shader_parameter/backface_albedo_texture = SubResource("GradientTexture2D_ehkex")
 shader_parameter/backface_uv_scale = 1.75
-shader_parameter/shadow_gradient = SubResource("GradientTexture1D_00tp4")
+shader_parameter/shadow_gradient = SubResource("GradientTexture1D_xersf")
 
 [sub_resource type="Resource" id="Resource_b0q6j"]
 resource_name = "Roof (flat)"
@@ -126,13 +126,9 @@ override_start_shadow = false
 start_shadow = 0.0
 metadata/_custom_type_script = "uid://qiln4rknj40s"
 
-[sub_resource type="Gradient" id="Gradient_77dp3"]
+[sub_resource type="Gradient" id="Gradient_ehkex"]
 offsets = PackedFloat32Array(0, 0.22343, 0.637701, 0.996377)
 colors = PackedColorArray(1, 1, 1, 1, 0.569023, 0.436473, 0.782256, 1, 0.1161, 0.43, 0.215502, 1, 0.2, 0, 0, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_xersf"]
-gradient = SubResource("Gradient_77dp3")
-width = 32
 
 [sub_resource type="Resource" id="Resource_00tp4"]
 script = ExtResource("4_vbegm")
@@ -648,13 +644,67 @@ horizontal_alignment = 2
 vertical_alignment = 2
 
 [node name="LightmapGI" type="LightmapGI" parent="."]
-quality = 0
-texel_scale = 0.1
+supersampling = true
+bounce_indirect_energy = 2.0
+directional = true
+shadowmask_mode = 1
 light_data = ExtResource("11_77dp3")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.963078, 0.269222, -7.45058e-09, 0.124192, -0.444267, 0.887244, 0.238866, -0.854486, -0.4613, 0, 0, 0)
 light_indirect_energy = 16.0
+shadow_enabled = true
+shadow_opacity = 0.78
+shadow_blur = 0.0
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -6, 2)
+light_color = Color(1, 0, 0, 1)
+light_bake_mode = 1
+omni_attenuation = -1.5
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -6, 14)
+light_color = Color(0, 1, 0, 1)
+light_bake_mode = 1
+omni_attenuation = -1.5
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -2, -6, 8)
+light_color = Color(0, 0, 1, 1)
+light_bake_mode = 1
+omni_attenuation = -1.5
+
+[node name="OmniLight3D4" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -14, -6, 8)
+light_bake_mode = 1
+omni_attenuation = -1.5
+
+[node name="OmniLight3D5" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -3.75736, -4, 12.2426)
+light_color = Color(1, 1, 0, 1)
+light_bake_mode = 1
+omni_attenuation = -1.5
+
+[node name="OmniLight3D6" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -12.2426, -4, 3.75736)
+light_color = Color(0, 1, 1, 1)
+light_bake_mode = 1
+omni_attenuation = -1.5
+
+[node name="OmniLight3D7" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -12.2426, -4, 12.2426)
+light_color = Color(1, 0, 1, 1)
+light_bake_mode = 1
+omni_attenuation = -1.5
+
+[node name="OmniLight3D8" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -3.75736, -4, 3.75736)
+light_color = Color(0, 0, 0, 1)
+light_bake_mode = 1
+omni_attenuation = -1.5
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_5tkv4")
